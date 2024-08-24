@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View PDF</title>
+    <script>
+        function getSecureRandomNumber() {
+          const array = new Uint32Array(1);
+          window.crypto.getRandomValues(array);
+          return array[0] / (0xFFFFFFFF + 1);
+        }
+
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                fileName: params.get('fileName') || 'default.pdf',
+                startIdx: parseInt(params.get('startIdx')) || 1,
+                endIdx: parseInt(params.get('endIdx')) || 1
+            };
+        }
+
+        function getRandomPage(startIdx, endIdx) {
+            return Math.floor(getSecureRandomNumber() * (endIdx - startIdx + 1)) + startIdx;
+        }
+
+        function displayPdf() {
+            const params = getUrlParams();
+            const randomPage = getRandomPage(params.startIdx, params.endIdx);
+            const pdfEmbed = document.getElementById('pdfEmbed');
+            pdfEmbed.src = `${params.fileName}#page=${randomPage}`;
+        }
+    </script>
+</head>
+<body onload="displayPdf()">
+    <h1>View PDF Example</h1>
+    <embed id="pdfEmbed" src="" type="application/pdf" width="100%" height="600px" />
+</body>
+</html>
