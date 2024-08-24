@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View PDF</title>
-    <script>
-        function getSecureRandomNumber() {
-          const array = new Uint32Array(1);
-          window.crypto.getRandomValues(array);
-          return array[0] / (0xFFFFFFFF + 1);
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
         }
-
+        #pdfEmbed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+    <script>
         function getUrlParams() {
             const params = new URLSearchParams(window.location.search);
             return {
@@ -21,7 +31,7 @@
         }
 
         function getRandomPage(startIdx, endIdx) {
-            return Math.floor(getSecureRandomNumber() * (endIdx - startIdx + 1)) + startIdx;
+            return Math.floor(Math.random() * (endIdx - startIdx + 1)) + startIdx;
         }
 
         function displayPdf() {
@@ -33,7 +43,6 @@
     </script>
 </head>
 <body onload="displayPdf()">
-    <h1>View PDF Example</h1>
-    <embed id="pdfEmbed" src="" type="application/pdf" width="100%" height="600px" />
+    <embed id="pdfEmbed" src="" type="application/pdf" />
 </body>
 </html>
